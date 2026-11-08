@@ -54,7 +54,7 @@ export default function Qualifications({ t, lang }) {
       </Section>
 
       {/* ── Certifications & modules ───────────────────────── */}
-      <Section id="certifications" className="border-t border-line bg-[#080c12]">
+      <Section id="certifications" className="border-t border-line bg-sunken">
         <div className="mb-8">
           <Eyebrow>{r.tabs.certifications}</Eyebrow>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">

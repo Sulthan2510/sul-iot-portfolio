@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
+import { usePalette } from '../../theme';
 
 /* Shared building blocks for the hand-drawn architecture diagrams.
-   Every diagram is a plain SVG using the site's theme colours, so they all
-   read as one family rather than a pile of screenshots. */
+   Every diagram is a plain SVG using the live theme colours, so they all
+   read as one family and follow light/dark with the rest of the site. */
 
-export const C = {
+const FALLBACK = {
   line: '#1e2733',
   surface: '#0e131b',
   raised: '#151c26',
@@ -15,17 +16,47 @@ export const C = {
   data: '#38bdf8',
   warn: '#f59e0b',
   violet: '#a78bfa',
+  bronze: '#b45309',
+  silver: '#94a3b8',
+  band: '#0b1017',
 };
+
+const PaletteContext = createContext(FALLBACK);
+export const useDiagramColours = () => useContext(PaletteContext);
+
+/* `C.signal` is a sentinel meaning "the themed signal colour". Components
+   pass these around at module scope; they resolve at render time. */
+export const C = Object.keys(FALLBACK).reduce((acc, k) => {
+  acc[k] = `token:${k}`;
+  return acc;
+}, {});
+
+function useColour(value) {
+  const colours = useDiagramColours();
+  if (typeof value === 'string' && value.startsWith('token:')) {
+    const key = value.slice(6);
+    return colours[key] || FALLBACK[key];
+  }
+  return value;
+}
 
 export const MONO = "'JetBrains Mono', monospace";
 export const SANS = 'Inter, sans-serif';
 
-/* Wrapper: scrolls horizontally on narrow screens so a wide diagram stays legible. */
-export function DiagramFrame({ children, minWidth = 940, caption }) {
+/* Wrapper: supplies the themed palette and scrolls wide diagrams on narrow
+   screens so they stay legible. */
+export function DiagramFrame({ children, minWidth = 940, caption, bare = false }) {
+  const palette = usePalette();
+  const body = (
+    <PaletteContext.Provider value={palette}>{children}</PaletteContext.Provider>
+  );
+
+  if (bare) return <PaletteContext.Provider value={palette}>{children}</PaletteContext.Provider>;
+
   return (
     <figure className="m-0">
       <div className="overflow-x-auto rounded-xl border border-line bg-surface p-4 sm:p-6">
-        <div style={{ minWidth }}>{children}</div>
+        <div style={{ minWidth }}>{body}</div>
       </div>
       {caption && (
         <figcaption className="mt-3 font-mono text-[11px] leading-relaxed text-faint">
@@ -37,24 +68,25 @@ export function DiagramFrame({ children, minWidth = 940, caption }) {
 }
 
 export function Defs() {
+  const c = useDiagramColours();
   return (
     <defs>
       <marker id="ah" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-        <path d="M0,0 L7,3 L0,6 Z" fill={C.faint} />
+        <path d="M0,0 L7,3 L0,6 Z" fill={c.faint} />
       </marker>
       <marker id="ahSignal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-        <path d="M0,0 L7,3 L0,6 Z" fill={C.signal} />
+        <path d="M0,0 L7,3 L0,6 Z" fill={c.signal} />
       </marker>
       <marker id="ahData" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-        <path d="M0,0 L7,3 L0,6 Z" fill={C.data} />
+        <path d="M0,0 L7,3 L0,6 Z" fill={c.data} />
       </marker>
       <marker id="ahStart" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto">
-        <path d="M7,0 L0,3 L7,6 Z" fill={C.faint} />
+        <path d="M7,0 L0,3 L7,6 Z" fill={c.faint} />
       </marker>
       <linearGradient id="tunnelGrad" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stopColor={C.signal} stopOpacity="0.12" />
-        <stop offset="50%" stopColor={C.signal} stopOpacity="0.32" />
-        <stop offset="100%" stopColor={C.data} stopOpacity="0.12" />
+        <stop offset="0%" stopColor={c.signal} stopOpacity="0.12" />
+        <stop offset="50%" stopColor={c.signal} stopOpacity="0.32" />
+        <stop offset="100%" stopColor={c.data} stopOpacity="0.12" />
       </linearGradient>
     </defs>
   );
@@ -72,14 +104,18 @@ export function Node({
   titleFill = C.ink,
   fontSize = 12,
 }) {
+  const c = useDiagramColours();
+  const stroke = useColour(accent);
+  const bg = useColour(fill);
+  const text = useColour(titleFill);
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} rx="8" fill={fill} stroke={accent} strokeWidth="1" />
+      <rect x={x} y={y} width={w} height={h} rx="8" fill={bg} stroke={stroke} strokeWidth="1" />
       <text
         x={x + w / 2}
         y={sub ? y + h / 2 - 4 : y + h / 2 + 4}
         textAnchor="middle"
-        fill={titleFill}
+        fill={text}
         fontSize={fontSize}
         fontWeight="600"
         fontFamily={SANS}
@@ -91,7 +127,7 @@ export function Node({
           x={x + w / 2}
           y={y + h / 2 + 13}
           textAnchor="middle"
-          fill={C.faint}
+          fill={c.faint}
           fontSize="10"
           fontFamily={MONO}
         >
@@ -102,16 +138,18 @@ export function Node({
   );
 }
 
-/* A small labelled chip — for technology lists inside a zone. */
 export function Chip({ x, y, w = 150, h = 30, label, accent = C.line, fill = C.surface }) {
+  const c = useDiagramColours();
+  const stroke = useColour(accent);
+  const bg = useColour(fill);
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} rx="6" fill={fill} stroke={accent} strokeWidth="1" />
+      <rect x={x} y={y} width={w} height={h} rx="6" fill={bg} stroke={stroke} strokeWidth="1" />
       <text
         x={x + w / 2}
         y={y + h / 2 + 4}
         textAnchor="middle"
-        fill={C.muted}
+        fill={c.muted}
         fontSize="11"
         fontFamily={MONO}
       >
@@ -121,8 +159,9 @@ export function Chip({ x, y, w = 150, h = 30, label, accent = C.line, fill = C.s
   );
 }
 
-/* Dashed grouping box with an uppercase mono label in its top-left. */
 export function Zone({ x, y, w, h, label, colour = C.line, labelFill }) {
+  const stroke = useColour(colour);
+  const text = useColour(labelFill || colour);
   return (
     <g>
       <rect
@@ -132,7 +171,7 @@ export function Zone({ x, y, w, h, label, colour = C.line, labelFill }) {
         height={h}
         rx="12"
         fill="transparent"
-        stroke={colour}
+        stroke={stroke}
         strokeWidth="1"
         strokeDasharray="5 5"
         opacity="0.75"
@@ -141,7 +180,7 @@ export function Zone({ x, y, w, h, label, colour = C.line, labelFill }) {
         <text
           x={x + 12}
           y={y + 18}
-          fill={labelFill || colour}
+          fill={text}
           fontSize="10"
           fontWeight="600"
           letterSpacing="1.4"
@@ -154,15 +193,16 @@ export function Zone({ x, y, w, h, label, colour = C.line, labelFill }) {
   );
 }
 
-/* Solid band with a label column on the left — used for layered architectures. */
 export function Band({ x, y, w, h, label, colour = C.line }) {
+  const c = useDiagramColours();
+  const stroke = useColour(colour);
   return (
     <g>
-      <rect x={x} y={y} width={w} height={h} rx="10" fill="#0b1017" stroke={colour} strokeWidth="1" />
+      <rect x={x} y={y} width={w} height={h} rx="10" fill={c.band} stroke={stroke} strokeWidth="1" />
       <text
         x={x + 16}
         y={y + h / 2 + 4}
-        fill={C.muted}
+        fill={c.muted}
         fontSize="12"
         fontWeight="700"
         fontFamily={SANS}
@@ -174,10 +214,11 @@ export function Band({ x, y, w, h, label, colour = C.line }) {
 }
 
 export function Arrow({ d, colour = C.faint, marker = 'ah', dashed = false, width = 1.4 }) {
+  const stroke = useColour(colour);
   return (
     <path
       d={d}
-      stroke={colour}
+      stroke={stroke}
       strokeWidth={width}
       fill="none"
       strokeDasharray={dashed ? '4 4' : undefined}
@@ -186,12 +227,12 @@ export function Arrow({ d, colour = C.faint, marker = 'ah', dashed = false, widt
   );
 }
 
-/* Arrowheads at both ends — for read/write relationships. */
 export function BiArrow({ d, colour = C.faint }) {
+  const stroke = useColour(colour);
   return (
     <path
       d={d}
-      stroke={colour}
+      stroke={stroke}
       strokeWidth="1.4"
       fill="none"
       markerEnd="url(#ah)"
@@ -201,12 +242,13 @@ export function BiArrow({ d, colour = C.faint }) {
 }
 
 export function Label({ x, y, children, fill = C.faint, size = 10, anchor = 'middle', weight }) {
+  const text = useColour(fill);
   return (
     <text
       x={x}
       y={y}
       textAnchor={anchor}
-      fill={fill}
+      fill={text}
       fontSize={size}
       fontWeight={weight}
       fontFamily={MONO}

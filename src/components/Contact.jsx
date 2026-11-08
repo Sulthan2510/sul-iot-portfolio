@@ -164,7 +164,7 @@ export default function Contact({ t }) {
           <button
             type="submit"
             disabled={state === 'sending'}
-            className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-base transition-colors hover:bg-signal/85 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-onSignal transition-colors hover:bg-signal/85 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {state === 'sending' ? (
               c.sending

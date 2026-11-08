@@ -1,11 +1,14 @@
 import React from 'react';
 import { C, MONO, SANS, Defs, Node, Zone, Arrow, Label, DiagramFrame } from './primitives';
+import { usePalette } from '../../theme';
 
 /* The Nexus data path: meter → router → WireGuard → Hetzner → staff / customer.
    Grafana feeds the staff view; the Nexus dashboard feeds the customer view. */
 
 export default function NexusDiagram({ labels }) {
   const L = labels;
+  // raw SVG elements below need resolved colours; primitives take C.* tokens
+  const c = usePalette();
 
   return (
     <DiagramFrame minWidth={940}>
@@ -38,21 +41,21 @@ export default function NexusDiagram({ labels }) {
           height={58}
           rx="8"
           fill="url(#tunnelGrad)"
-          stroke={C.signal}
+          stroke={c.signal}
           strokeWidth="1"
         />
         <text
           x={493}
           y={135}
           textAnchor="middle"
-          fill={C.signal}
+          fill={c.signal}
           fontSize="12.5"
           fontWeight="600"
           fontFamily={SANS}
         >
           {L.tunnel}
         </text>
-        <text x={493} y={152} textAnchor="middle" fill={C.muted} fontSize="10.5" fontFamily={MONO}>
+        <text x={493} y={152} textAnchor="middle" fill={c.muted} fontSize="10.5" fontFamily={MONO}>
           {L.tunnelSub}
         </text>
         <Arrow d="M328,139 L377,139" colour={C.signal} marker="ahSignal" />
@@ -64,8 +67,8 @@ export default function NexusDiagram({ labels }) {
         <Zone x={646} y={30} w={360} h={292} label={L.cloud} colour={C.data} />
         <Arrow d="M602,139 L665,139" colour={C.signal} marker="ahSignal" />
 
-        <rect x={672} y={58} width={308} height={30} rx="6" fill={C.surface} stroke={C.data} strokeWidth="1" />
-        <text x={826} y={78} textAnchor="middle" fill={C.data} fontSize="11" fontWeight="600" fontFamily={MONO}>
+        <rect x={672} y={58} width={308} height={30} rx="6" fill={c.surface} stroke={c.data} strokeWidth="1" />
+        <text x={826} y={78} textAnchor="middle" fill={c.data} fontSize="11" fontWeight="600" fontFamily={MONO}>
           {L.firewall}
         </text>
 

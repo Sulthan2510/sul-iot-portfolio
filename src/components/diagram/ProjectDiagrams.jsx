@@ -1,5 +1,6 @@
 import React from 'react';
 import { C, MONO, Defs, Node, Chip, Zone, Band, Arrow, BiArrow, Label, DiagramFrame } from './primitives';
+import { usePalette } from '../../theme';
 
 /* Architecture diagrams for the four client projects, redrawn from the original
    project diagrams in src/images/architecture/ so they share one visual language.
@@ -68,8 +69,8 @@ export function NavistarDiagram({ L }) {
 
         {/* Data storage — medallion */}
         <Band x={14} y={190} w={1006} h={150} label={L.storage} />
-        <Node x={250} y={220} w={150} h={56} title="Bronze" accent="#b45309" />
-        <Node x={460} y={220} w={150} h={56} title="Silver" accent="#94a3b8" />
+        <Node x={250} y={220} w={150} h={56} title="Bronze" accent={C.bronze} />
+        <Node x={460} y={220} w={150} h={56} title="Silver" accent={C.silver} />
         <Node x={670} y={220} w={150} h={56} title="Gold" accent={C.warn} />
         <Arrow d="M400,248 L453,248" />
         <Arrow d="M610,248 L663,248" />
@@ -100,6 +101,7 @@ export function NavistarDiagram({ L }) {
 
 /* ── 3. L&T ECC — HDInsight → Databricks migration ───────────────────────── */
 export function LtDiagram({ L }) {
+  const c = usePalette();
   return (
     <DiagramFrame minWidth={1000} caption={L.caption}>
       <svg viewBox="0 0 1180 500" className="h-auto w-full" role="img" aria-label={L.caption}>
@@ -117,12 +119,12 @@ export function LtDiagram({ L }) {
 
         {/* migration */}
         <Arrow d="M520,300 L520,207" colour={C.signal} marker="ahSignal" width={2} />
-        <rect x={430} y={228} width={180} height={34} rx="8" fill={C.surface} stroke={C.signal} />
+        <rect x={430} y={228} width={180} height={34} rx="8" fill={c.surface} stroke={c.signal} />
         <text
           x={520}
           y={250}
           textAnchor="middle"
-          fill={C.signal}
+          fill={c.signal}
           fontSize="12"
           fontWeight="700"
           fontFamily={MONO}

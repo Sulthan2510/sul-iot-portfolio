@@ -190,6 +190,12 @@ function renderHtml({ lang, cv, legacyLang, extraSkillGroups, certifications }) 
   }
   .header__contact span::before { content: "•"; margin-right: 11pt; color: #b9c3cf; }
   .header__contact span:first-child::before { content: none; margin: 0; }
+  .header__site { margin-top: 4pt; font-size: 8.8pt; }
+  .header__site a {
+    color: #0f9b6c; font-weight: 600; text-decoration: none;
+    border-bottom: 0.6pt solid rgba(15, 155, 108, 0.45); padding-bottom: 0.5pt;
+  }
+  .header__site a::before { content: "↗"; margin-right: 3.5pt; font-weight: 400; }
 
   /* ── sections ───────────────────────────── */
   .section { margin-top: 11pt; }
@@ -263,6 +269,9 @@ function renderHtml({ lang, cv, legacyLang, extraSkillGroups, certifications }) 
       <span>github.com/sulthan2510</span>
       <span>${esc(cv.locationLabel)}</span>
     </div>
+    <p class="header__site">
+      <a href="${esc(cv.websiteUrl)}">${esc(cv.website)}</a>
+    </p>
   </header>
 
   <section class="section">

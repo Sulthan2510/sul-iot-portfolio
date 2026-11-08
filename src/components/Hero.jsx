@@ -13,10 +13,11 @@ export default function Hero({ t }) {
       {/* grid + glow backdrop */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="pointer-events-none absolute inset-0"
         style={{
+          opacity: 'var(--c-grid-opacity)',
           backgroundImage:
-            'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+            'linear-gradient(to right, rgb(var(--c-grid)) 1px, transparent 1px), linear-gradient(to bottom, rgb(var(--c-grid)) 1px, transparent 1px)',
           backgroundSize: '56px 56px',
           maskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent)',
           WebkitMaskImage: 'radial-gradient(ellipse 80% 60% at 50% 0%, black, transparent)',
@@ -55,13 +56,13 @@ export default function Hero({ t }) {
               <a
                 href={cvFile}
                 download={`Sulthan_MD_CV_${t.locale.toUpperCase()}.pdf`}
-                className="inline-flex items-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-base transition-colors hover:bg-signal/85"
+                className="inline-flex items-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-onSignal transition-colors hover:bg-signal/85"
               >
                 <Download size={16} />
                 {h.primaryCta}
               </a>
               <Link
-                to="/nexus"
+                to="/iot/nexus"
                 className="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-signal/40 hover:bg-raised"
               >
                 {h.secondaryCta}
