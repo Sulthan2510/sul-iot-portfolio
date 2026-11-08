@@ -486,6 +486,41 @@ export const content = {
       error: 'Something went wrong. Please email sulthan2510@gmail.com directly.',
     },
 
+    /* Consumed by scripts/build-cv.mjs to render the downloadable PDF.
+       Not rendered anywhere on the site — kept here so all bilingual copy
+       lives in one file. */
+    cv: {
+      file: 'sulthan_cv_en.pdf',
+      documentTitle: 'Sulthan MD — Curriculum Vitae',
+      headline: 'IoT and Data — Forward Deployment Engineer',
+      profileTitle: 'Profile',
+      profile:
+        'Senior Data Engineer with 6+ years building large-scale data platforms on Azure, now designing and operating Nexus — an IoT energy monitoring platform running in production. I work across the whole stack: commissioning power analysers and industrial routers in the field, building the private network and hardened cloud infrastructure behind them, and modelling the resulting telemetry into analytics that customers act on. Currently completing an M.Sc. in Renewable Energy and Data Engineering at Hochschule Offenburg.',
+      experienceTitle: 'Experience',
+      educationTitle: 'Education',
+      skillsTitle: 'Technical skills',
+      certificationsTitle: 'Certifications & modules',
+      languagesTitle: 'Languages',
+      clientLabel: 'Client',
+      gradeLabel: 'Grade',
+      locationLabel: 'Offenburg, Germany',
+      nexus: {
+        role: 'IoT and Data — Forward Deployment Engineer',
+        company: 'Nexus',
+        client: 'Own platform — live in production',
+        period: '2026 — present',
+        bullets: [
+          'Designed, built and operate an IoT energy monitoring platform in production, owning the full path from the power analyser in the distribution board to the customer dashboard.',
+          'Commissioned Janitza UMG801 multi-circuit power analysers: CT ratios and connection types per channel, channel-to-asset mapping, Modbus TCP register map, recording intervals and NTP synchronisation across sites.',
+          'Deployed Teltonika RUTC50 (5G) and RUT901 (LTE Cat 4) industrial routers on RutOS with dual-SIM failover, data-limit guards, firewall zoning and fleet-wide remote management and firmware baselines.',
+          'Built a hub-and-spoke WireGuard network giving each building a private encrypted tunnel over CGNAT mobile networks — scoped AllowedIPs, per-device key rotation, no inbound route and no public port at any site.',
+          'Hardened and operate a Hetzner Cloud server: cloud firewall, key-only SSH with fail2ban, a Docker Compose stack (collector, TimescaleDB, Grafana, application, TLS reverse proxy), automated snapshots and tested restores.',
+          'Modelled telemetry in TimescaleDB with hypertables, continuous aggregates, compression and retention policies; built Grafana dashboards for operations and a React dashboard with server-side tenant isolation for customers.',
+          'Developed per-customer energy analytics: predictive maintenance from harmonic distortion, phase imbalance and power-factor drift, plus residual-based anomaly detection against per-circuit baselines by time of day and week.',
+        ],
+      },
+    },
+
     footer: {
       rights: 'All rights reserved.',
       builtWith: 'Built with React and Tailwind. Running on the same boring infrastructure principles as Nexus.',
@@ -975,6 +1010,39 @@ export const content = {
       sending: 'Wird gesendet…',
       success: 'Vielen Dank – Ihre Nachricht ist unterwegs. Ich melde mich in Kürze.',
       error: 'Da ist etwas schiefgelaufen. Bitte schreiben Sie direkt an sulthan2510@gmail.com.',
+    },
+
+    /* Siehe scripts/build-cv.mjs — erzeugt den herunterladbaren Lebenslauf. */
+    cv: {
+      file: 'sulthan_cv_de.pdf',
+      documentTitle: 'Sulthan MD — Lebenslauf',
+      headline: 'IoT und Daten — Forward Deployment Engineer',
+      profileTitle: 'Profil',
+      profile:
+        'Senior Data Engineer mit über 6 Jahren Erfahrung im Aufbau großer Datenplattformen auf Azure. Heute entwickle und betreibe ich Nexus – eine IoT-Plattform für Energiemonitoring im Produktivbetrieb. Ich arbeite über den gesamten Stack: Inbetriebnahme von Netzanalysatoren und Industrieroutern im Feld, Aufbau des privaten Netzes und der gehärteten Cloud-Infrastruktur dahinter sowie Modellierung der entstehenden Telemetrie zu Analysen, auf die Kunden handeln. Derzeit im M.Sc.-Studium Erneuerbare Energien und Datentechnik an der Hochschule Offenburg.',
+      experienceTitle: 'Berufserfahrung',
+      educationTitle: 'Ausbildung',
+      skillsTitle: 'Technische Kenntnisse',
+      certificationsTitle: 'Zertifikate & Module',
+      languagesTitle: 'Sprachen',
+      clientLabel: 'Kunde',
+      gradeLabel: 'Note',
+      locationLabel: 'Offenburg, Deutschland',
+      nexus: {
+        role: 'IoT und Daten — Forward Deployment Engineer',
+        company: 'Nexus',
+        client: 'Eigene Plattform — im Produktivbetrieb',
+        period: '2026 — heute',
+        bullets: [
+          'Entwurf, Aufbau und Betrieb einer IoT-Plattform für Energiemonitoring im Produktivbetrieb – mit Verantwortung für den gesamten Weg vom Netzanalysator in der Unterverteilung bis zum Kunden-Dashboard.',
+          'Inbetriebnahme von Janitza UMG801 Mehrkanal-Netzanalysatoren: Wandlerverhältnisse und Anschlussarten je Kanal, Zuordnung der Kanäle zu realen Anlagen, Modbus-TCP-Registerbelegung, Aufzeichnungsintervalle und NTP-Synchronisation über alle Standorte.',
+          'Ausrollen von Teltonika RUTC50 (5G) und RUT901 (LTE Cat 4) Industrieroutern unter RutOS mit Dual-SIM-Failover, Datenlimits, Firewall-Zonierung sowie flottenweiter Fernverwaltung und einheitlichen Firmware-Ständen.',
+          'Aufbau eines WireGuard-Netzes in Hub-and-Spoke-Topologie, das jedem Gebäude einen privaten verschlüsselten Tunnel über CGNAT-Mobilfunknetze gibt – eng gefasste AllowedIPs, Schlüsselrotation je Gerät, kein eingehender Weg und kein offener Port an den Standorten.',
+          'Härtung und Betrieb eines Hetzner-Cloud-Servers: Cloud-Firewall, ausschließlich Schlüssel-SSH mit fail2ban, Docker-Compose-Stack (Collector, TimescaleDB, Grafana, Anwendung, TLS-Reverse-Proxy), automatische Snapshots und getestete Wiederherstellung.',
+          'Modellierung der Telemetrie in TimescaleDB mit Hypertables, Continuous Aggregates, Komprimierung und Retention-Policies; Grafana-Dashboards für den Betrieb und ein React-Dashboard mit serverseitiger Mandantentrennung für Kunden.',
+          'Entwicklung kundenspezifischer Energieanalytik: Predictive Maintenance anhand von Oberschwingungsverzerrung, Phasenunsymmetrie und Leistungsfaktor-Drift sowie residuenbasierte Anomalieerkennung gegen Baselines je Abgang nach Tageszeit und Wochentag.',
+        ],
+      },
     },
 
     footer: {

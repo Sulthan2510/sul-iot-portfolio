@@ -4,8 +4,6 @@ import { Section, SectionHeading, Eyebrow } from '../components/ui';
 import { legacy } from '../data/legacy';
 import { certifications } from '../data/certifications';
 
-const cvFile = `${process.env.PUBLIC_URL}/files/sulthan_cv.pdf`;
-
 /* One page, three topics: skills, certifications & modules, education.
    Languages ride along under skills — they are a qualification too. */
 export default function Qualifications({ t, lang }) {
@@ -13,6 +11,7 @@ export default function Qualifications({ t, lang }) {
   const e = t.engineering;
   const L = legacy[lang];
   const skillGroups = [...t.extraSkillGroups, ...L.skillGroups];
+  const cvFile = `${process.env.PUBLIC_URL}/files/${t.cv.file}`;
 
   return (
     <>
@@ -21,7 +20,7 @@ export default function Qualifications({ t, lang }) {
         <SectionHeading eyebrow={r.eyebrow} title={r.title}>
           <a
             href={cvFile}
-            download
+            download={`Sulthan_MD_CV_${t.locale.toUpperCase()}.pdf`}
             className="mt-7 inline-flex items-center gap-2 rounded-lg border border-signal/40 bg-signal/10 px-4 py-2.5 text-sm font-semibold text-signal transition-colors hover:bg-signal/20"
           >
             <Download size={15} />

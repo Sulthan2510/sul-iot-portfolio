@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, Download } from 'lucide-react';
 
-// Served from public/files/ — not bundled, so reference it by URL.
-const cvFile = `${process.env.PUBLIC_URL}/files/sulthan_cv.pdf`;
-
 export const PAGES = [
   { key: 'about', path: '/' },
   { key: 'nexus', path: '/nexus' },
@@ -17,6 +14,9 @@ export default function Nav({ t, lang, setLang }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { pathname } = useLocation();
+  // CV is served from public/files/ (not bundled); pick the active language's file
+  const cvFile = `${process.env.PUBLIC_URL}/files/${t.cv.file}`;
+  const cvName = `Sulthan_MD_CV_${t.locale.toUpperCase()}.pdf`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -67,7 +67,7 @@ export default function Nav({ t, lang, setLang }) {
         <div className="flex items-center gap-2">
           <a
             href={cvFile}
-            download
+            download={cvName}
             className="hidden items-center gap-2 rounded-lg border border-signal/40 bg-signal/10 px-3.5 py-2 text-sm font-semibold text-signal transition-colors hover:bg-signal/20 sm:inline-flex"
           >
             <Download size={15} />
@@ -123,7 +123,7 @@ export default function Nav({ t, lang, setLang }) {
             ))}
             <a
               href={cvFile}
-              download
+              download={cvName}
               className="mb-3 mt-3 flex items-center justify-center gap-2 rounded-lg border border-signal/40 bg-signal/10 px-4 py-2.5 text-sm font-semibold text-signal"
             >
               <Download size={15} />

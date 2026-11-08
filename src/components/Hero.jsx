@@ -4,10 +4,9 @@ import { Download, ArrowRight } from 'lucide-react';
 import profileImage from '../images/profile.png';
 import { StatusDot } from './ui';
 
-const cvFile = `${process.env.PUBLIC_URL}/files/sulthan_cv.pdf`;
-
 export default function Hero({ t }) {
   const h = t.hero;
+  const cvFile = `${process.env.PUBLIC_URL}/files/${t.cv.file}`;
 
   return (
     <div className="relative overflow-hidden border-b border-line">
@@ -55,7 +54,7 @@ export default function Hero({ t }) {
             <div className="mt-9 flex flex-wrap gap-3">
               <a
                 href={cvFile}
-                download
+                download={`Sulthan_MD_CV_${t.locale.toUpperCase()}.pdf`}
                 className="inline-flex items-center gap-2 rounded-lg bg-signal px-5 py-3 text-sm font-semibold text-base transition-colors hover:bg-signal/85"
               >
                 <Download size={16} />
