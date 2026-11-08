@@ -1,5 +1,6 @@
 import React from 'react';
-import { Download, ArrowDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Download, ArrowRight } from 'lucide-react';
 import profileImage from '../images/profile.png';
 import { StatusDot } from './ui';
 
@@ -60,15 +61,13 @@ export default function Hero({ t }) {
                 <Download size={16} />
                 {h.primaryCta}
               </a>
-              <button
-                onClick={() =>
-                  document.getElementById('platform')?.scrollIntoView({ behavior: 'smooth' })
-                }
+              <Link
+                to="/nexus"
                 className="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-signal/40 hover:bg-raised"
               >
                 {h.secondaryCta}
-                <ArrowDown size={16} />
-              </button>
+                <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
 

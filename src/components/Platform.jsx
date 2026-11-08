@@ -1,6 +1,6 @@
 import React from 'react';
 import { Section, Eyebrow, StatusDot } from './ui';
-import ArchitectureDiagram from './ArchitectureDiagram';
+import NexusDiagram from './diagram/NexusDiagram';
 
 export default function Platform({ t }) {
   const p = t.platform;
@@ -51,7 +51,7 @@ export default function Platform({ t }) {
           <h3 className="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{d.title}</h3>
           <p className="mt-3 text-[0.95rem] leading-relaxed text-muted">{d.lead}</p>
         </div>
-        <ArchitectureDiagram labels={d.labels} />
+        <NexusDiagram labels={d.labels} />
       </div>
     </Section>
   );

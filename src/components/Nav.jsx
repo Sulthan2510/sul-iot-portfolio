@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { Menu, X, Download } from 'lucide-react';
 
 // Served from public/files/ — not bundled, so reference it by URL.
 const cvFile = `${process.env.PUBLIC_URL}/files/sulthan_cv.pdf`;
 
-const SECTIONS = ['platform', 'stack', 'dashboards', 'analytics', 'engineering', 'contact'];
+export const PAGES = [
+  { key: 'about', path: '/' },
+  { key: 'nexus', path: '/nexus' },
+  { key: 'dataEngineering', path: '/data-engineering' },
+  { key: 'qualifications', path: '/qualifications' },
+  { key: 'contact', path: '/contact' },
+];
 
 export default function Nav({ t, lang, setLang }) {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState('platform');
   const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -18,60 +25,42 @@ export default function Nav({ t, lang, setLang }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Scroll spy: highlight whichever section occupies the upper third of the viewport.
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id);
-      },
-      { rootMargin: '-20% 0px -65% 0px', threshold: [0, 0.25, 0.5, 1] }
-    );
-    SECTIONS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
+  // close the mobile menu whenever the route changes
+  useEffect(() => setOpen(false), [pathname]);
 
-  const go = (id) => {
-    setOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  const linkClass = ({ isActive }) =>
+    `relative py-1 text-sm font-medium transition-colors ${
+      isActive ? 'text-ink' : 'text-faint hover:text-muted'
+    }`;
 
   return (
     <header
       className={`sticky top-0 z-50 border-b transition-colors duration-300 ${
-        scrolled ? 'border-line bg-base/90 backdrop-blur-md' : 'border-transparent bg-base/60 backdrop-blur-sm'
+        scrolled
+          ? 'border-line bg-base/90 backdrop-blur-md'
+          : 'border-transparent bg-base/60 backdrop-blur-sm'
       }`}
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8">
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="group flex items-baseline gap-2 text-left"
-        >
-          <span className="font-mono text-base font-semibold tracking-tight text-ink">Sulthan MD</span>
+        <Link to="/" className="group flex items-baseline gap-2">
+          <span className="font-mono text-base font-semibold tracking-tight text-ink">
+            Sulthan MD
+          </span>
           <span className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-faint transition-colors group-hover:text-signal sm:inline">
             / Nexus
           </span>
-        </button>
+        </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">
-          {SECTIONS.map((id) => (
-            <button
-              key={id}
-              onClick={() => go(id)}
-              className={`relative py-1 text-sm font-medium transition-colors ${
-                active === id ? 'text-ink' : 'text-faint hover:text-muted'
-              }`}
-            >
-              {t.nav[id]}
-              {active === id && (
-                <span className="absolute -bottom-0.5 left-0 h-px w-full bg-signal" />
+          {PAGES.map((page) => (
+            <NavLink key={page.key} to={page.path} end={page.path === '/'} className={linkClass}>
+              {({ isActive }) => (
+                <>
+                  {t.nav[page.key]}
+                  {isActive && <span className="absolute -bottom-0.5 left-0 h-px w-full bg-signal" />}
+                </>
               )}
-            </button>
+            </NavLink>
           ))}
         </nav>
 
@@ -118,21 +107,24 @@ export default function Nav({ t, lang, setLang }) {
       {open && (
         <div className="border-t border-line bg-surface lg:hidden">
           <nav className="mx-auto w-full max-w-6xl px-5 py-2 sm:px-8">
-            {SECTIONS.map((id) => (
-              <button
-                key={id}
-                onClick={() => go(id)}
-                className={`block w-full border-b border-line/60 py-3 text-left text-sm font-medium last:border-0 ${
-                  active === id ? 'text-signal' : 'text-muted'
-                }`}
+            {PAGES.map((page) => (
+              <NavLink
+                key={page.key}
+                to={page.path}
+                end={page.path === '/'}
+                className={({ isActive }) =>
+                  `block border-b border-line/60 py-3 text-sm font-medium last:border-0 ${
+                    isActive ? 'text-signal' : 'text-muted'
+                  }`
+                }
               >
-                {t.nav[id]}
-              </button>
+                {t.nav[page.key]}
+              </NavLink>
             ))}
             <a
               href={cvFile}
               download
-              className="mt-3 mb-3 flex items-center justify-center gap-2 rounded-lg border border-signal/40 bg-signal/10 px-4 py-2.5 text-sm font-semibold text-signal"
+              className="mb-3 mt-3 flex items-center justify-center gap-2 rounded-lg border border-signal/40 bg-signal/10 px-4 py-2.5 text-sm font-semibold text-signal"
             >
               <Download size={15} />
               {t.nav.cv}

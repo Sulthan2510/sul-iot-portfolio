@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 
 import { content } from './data/content';
 import Nav from './components/Nav';
-import Hero from './components/Hero';
-import Platform from './components/Platform';
-import StackLayers from './components/StackLayers';
-import Dashboards from './components/Dashboards';
-import Analytics from './components/Analytics';
-import Engineering from './components/Engineering';
-import Resume from './components/Resume';
+import About from './pages/About';
+import Nexus from './pages/Nexus';
+import DataEngineering from './pages/DataEngineering';
+import Qualifications from './pages/Qualifications';
 import Contact from './components/Contact';
 
 const STORAGE_KEY = 'nexus-portfolio-lang';
@@ -24,7 +22,18 @@ function initialLang() {
   return 'de';
 }
 
-export default function App() {
+/* Land at the top on navigation, but leave #anchor links alone —
+   DataEngineering scrolls to those itself. */
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (hash) return;
+    window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+  }, [pathname, hash]);
+  return null;
+}
+
+function Shell() {
   const [lang, setLang] = useState(initialLang);
   const t = content[lang];
 
@@ -44,23 +53,24 @@ export default function App() {
   return (
     <div className="min-h-screen bg-base font-sans text-ink antialiased">
       <a
-        href="#platform"
+        href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-lg focus:bg-signal focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-base"
       >
-        {t.nav.platform}
+        {t.a11y.menu}
       </a>
 
+      <ScrollToTop />
       <Nav t={t} lang={lang} setLang={setLang} />
 
-      <main>
-        <Hero t={t} />
-        <Platform t={t} />
-        <StackLayers t={t} />
-        <Dashboards t={t} />
-        <Analytics t={t} />
-        <Engineering t={t} lang={lang} />
-        <Resume t={t} lang={lang} />
-        <Contact t={t} />
+      <main id="main">
+        <Routes>
+          <Route path="/" element={<About t={t} lang={lang} />} />
+          <Route path="/nexus" element={<Nexus t={t} />} />
+          <Route path="/data-engineering" element={<DataEngineering t={t} lang={lang} />} />
+          <Route path="/qualifications" element={<Qualifications t={t} lang={lang} />} />
+          <Route path="/contact" element={<Contact t={t} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
 
       <footer className="border-t border-line bg-[#080c12]">
@@ -74,5 +84,13 @@ export default function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Shell />
+    </BrowserRouter>
   );
 }

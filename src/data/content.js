@@ -6,21 +6,20 @@ export const content = {
   en: {
     locale: 'en',
     nav: {
-      platform: 'Platform',
-      stack: 'Stack',
-      dashboards: 'Dashboards',
-      analytics: 'Analytics',
-      engineering: 'Data Engineering',
-      cv: 'CV',
+      about: 'About',
+      nexus: 'IoT · Nexus',
+      dataEngineering: 'Data Engineering',
+      qualifications: 'Qualifications',
       contact: 'Contact',
+      cv: 'CV',
     },
-    a11y: { menu: 'Menu', close: 'Close', language: 'Language' },
+    a11y: { menu: 'Menu', close: 'Close', language: 'Language', backToTop: 'Back to top' },
 
     hero: {
       available: 'Open to Data / IoT Engineering roles',
       greeting: "Hi, I'm",
       name: 'Sulthan MD',
-      role: 'Data & IoT Platform Engineer',
+      role: 'IoT and Data — Forward Deployment Engineer',
       headline: 'I build energy monitoring systems end to end — from the meter in the cabinet to the dashboard.',
       summary:
         'Senior Data Engineer with 6+ years in large-scale Azure data platforms, now building and operating Nexus: an IoT energy monitoring platform running in production. I own the whole path — Janitza power analysers, Teltonika industrial routers, WireGuard networking, a hardened Hetzner server, TimescaleDB, Grafana and a custom dashboard — alongside an M.Sc. in Renewable Energy and Data Engineering at Hochschule Offenburg.',
@@ -34,6 +33,124 @@ export const content = {
         { label: 'Studying', value: 'M.Sc. Renewable Energy & Data Engineering' },
       ],
     },
+
+    about: {
+      eyebrow: 'Career',
+      title: 'What I have built',
+      lead: 'Five roles, one thread: taking measurements off physical equipment and turning them into something a business can act on. Each one links to the project in detail.',
+      cta: 'View project',
+      ctaNexus: 'Explore the platform',
+      experienceTitle: 'Full experience',
+      experienceLead: 'The same roles with the detail a technical reviewer would want.',
+      roles: [
+        {
+          id: 'nexus',
+          title: 'IoT and Data — Forward Deployment Engineer',
+          org: 'Nexus — my own platform',
+          period: '2026 — present',
+          line: 'An IoT energy monitoring platform I designed, built and operate, live in production: Janitza power analysers and Teltonika routers in the building, WireGuard to a hardened Hetzner server, TimescaleDB, Grafana and a custom customer dashboard.',
+          to: '/nexus',
+          featured: true,
+        },
+        {
+          id: 'hochschule',
+          title: 'HiWi Research Assistant',
+          org: 'Hochschule Offenburg',
+          period: 'Nov 2025 — Feb 2026',
+          line: 'End-to-end IoT pipeline from air-handling-unit sensors to a monitoring dashboard — Node-RED, NATS JetStream, InfluxDB and Grafana, containerised with Docker and deployed through GitLab CI/CD.',
+          to: '/data-engineering#hochschule',
+        },
+        {
+          id: 'navistar',
+          title: 'Senior Data Engineer',
+          org: 'LTIMindtree · Navistar International (USA)',
+          period: 'Apr 2022 — Aug 2025',
+          line: '20+ hourly ETL pipelines on Azure Synapse and Databricks, turning raw vehicle telematics into an analytics-ready lakehouse with a SQL serverless layer on top.',
+          to: '/data-engineering#navistar',
+        },
+        {
+          id: 'lt',
+          title: 'Data Engineer',
+          org: 'LTIMindtree · L&T ECC (India)',
+          period: 'Aug 2020 — Apr 2022',
+          line: 'Migrated 100+ Spark-SQL jobs from Azure HDInsight to Databricks at 50% lower cost, processing 100,000+ daily telematics records from around 150 IoT devices.',
+          to: '/data-engineering#lt',
+        },
+        {
+          id: 'tampnet',
+          title: 'IoT Engineer',
+          org: 'LTI · Tampnet (Norway)',
+          period: 'Jun 2018 — Aug 2020',
+          line: 'Sourced and lab-tested ATEX/IECEx certified NB-IoT and CAT-M sensors for hazardous environments, and built the Python APIs that carried their readings to the cloud.',
+          to: '/data-engineering#tampnet',
+        },
+      ],
+    },
+
+    projectDiagrams: {
+      title: 'Architecture',
+      1: {
+        caption: 'AHU sensors → MQTT → Node-RED → NATS JetStream → InfluxDB, with Grafana for live dashboards and a Python archiver writing partitioned Parquet to Azure Blob.',
+        field: 'Field level',
+        controller: 'controller',
+        fieldbus: 'fieldbus',
+        mbus: 'M-Bus box',
+        docker: 'Docker containers',
+        flow: 'logic flow',
+        hot: 'hot storage',
+        dbAdmin: 'UI & DB admin',
+        alerts: 'dashboards & alerts',
+        partitioned: 'yyyy/mm/dd/hh',
+        note: 'Whole pipeline containerised on Linux and deployed through GitLab CI/CD.',
+      },
+      2: {
+        caption: 'A layered Azure lakehouse: medallion storage on ADLS Gen2 and Delta Lake, Spark and Databricks compute, Unity Catalog governance, and Power BI on a SQL serverless layer.',
+        process: 'Data process',
+        storage: 'Data storage',
+        governance: 'Governance',
+        platform: 'Platform',
+        jobCluster: 'job clusters',
+        warehouse: 'analytics layer',
+      },
+      3: {
+        caption: 'Lift of the entire batch stack from HDInsight Hadoop/YARN onto Databricks job clusters and Delta on ADLS Gen2 — same reporting layer, half the cost.',
+        after: 'After — Databricks',
+        before: 'Before — on-premise / HDInsight',
+        migration: 'Migration',
+        migrationNote: '100+ Spark-SQL jobs · 50% cost reduction',
+        jobCluster: 'job compute cluster',
+      },
+      4: {
+        caption: 'Certified sensor evaluation for hazardous environments, then a Python API moving validated readings from the lab into cloud storage.',
+        sensors: 'IoT sensors',
+        certification: 'HAZARDOUS-AREA CERTIFICATION',
+        onPrem: 'On-premise setup',
+        labTesting: 'Lab testing',
+        vendor: 'vendor evaluation',
+        archiver: 'archiver',
+        coldStore: 'cold storage',
+        realtime: 'real-time sensor data processing',
+        note: 'Sensor selection, vendor communication and lab protocols alongside the data path.',
+      },
+    },
+
+    extraSkillGroups: [
+      {
+        category: 'IoT hardware & field devices',
+        skills:
+          'Janitza UMG801 power analysers (Modbus TCP, CT configuration, GridVis, RCM modules), Teltonika RUTC50 / RUT901 industrial routers (RutOS, dual-SIM failover, firewall zones, remote management), Siemens controllers, BACnet, M-Bus, ATEX / IECEx certified sensors',
+      },
+      {
+        category: 'Networking & security',
+        skills:
+          'WireGuard VPN (hub-and-spoke, key rotation, CGNAT traversal, MTU tuning), SSH hardening (key-only authentication, disabled root login, fail2ban), firewall zoning, Hetzner Cloud Firewall, TLS and reverse proxy, network segmentation',
+      },
+      {
+        category: 'Cloud infrastructure & Linux',
+        skills:
+          'Hetzner Cloud (servers, cloud firewalls, private networks, snapshots and backups), Linux server administration, Docker and Docker Compose, TimescaleDB (hypertables, continuous aggregates, compression, retention), unattended security upgrades',
+      },
+    ],
 
     platform: {
       eyebrow: 'Flagship project',
@@ -380,21 +497,20 @@ export const content = {
   de: {
     locale: 'de',
     nav: {
-      platform: 'Plattform',
-      stack: 'Stack',
-      dashboards: 'Dashboards',
-      analytics: 'Analytik',
-      engineering: 'Data Engineering',
-      cv: 'Lebenslauf',
+      about: 'Über mich',
+      nexus: 'IoT · Nexus',
+      dataEngineering: 'Data Engineering',
+      qualifications: 'Qualifikationen',
       contact: 'Kontakt',
+      cv: 'Lebenslauf',
     },
-    a11y: { menu: 'Menü', close: 'Schließen', language: 'Sprache' },
+    a11y: { menu: 'Menü', close: 'Schließen', language: 'Sprache', backToTop: 'Nach oben' },
 
     hero: {
       available: 'Offen für Stellen im Data- und IoT-Engineering',
       greeting: 'Hallo, ich bin',
       name: 'Sulthan MD',
-      role: 'Data- & IoT-Plattform-Engineer',
+      role: 'IoT und Daten — Forward Deployment Engineer',
       headline: 'Ich baue Energiemonitoring-Systeme durchgängig – vom Zähler im Schaltschrank bis zum Dashboard.',
       summary:
         'Senior Data Engineer mit über 6 Jahren Erfahrung in großen Azure-Datenplattformen. Heute entwickle und betreibe ich Nexus: eine IoT-Plattform für Energiemonitoring im Produktivbetrieb. Ich verantworte den gesamten Weg – Janitza-Netzanalysatoren, industrielle Teltonika-Router, WireGuard-Vernetzung, einen gehärteten Hetzner-Server, TimescaleDB, Grafana und ein eigenes Dashboard – parallel zum M.Sc. Erneuerbare Energien und Datentechnik an der Hochschule Offenburg.',
@@ -408,6 +524,124 @@ export const content = {
         { label: 'Studium', value: 'M.Sc. Erneuerbare Energien & Datentechnik' },
       ],
     },
+
+    about: {
+      eyebrow: 'Werdegang',
+      title: 'Was ich gebaut habe',
+      lead: 'Fünf Stationen, ein roter Faden: Messwerte von physischen Anlagen abnehmen und daraus etwas machen, worauf ein Unternehmen handeln kann. Jede Station führt zum Projekt im Detail.',
+      cta: 'Projekt ansehen',
+      ctaNexus: 'Plattform ansehen',
+      experienceTitle: 'Vollständige Erfahrung',
+      experienceLead: 'Dieselben Stationen – mit der Tiefe, die eine fachliche Prüfung erwartet.',
+      roles: [
+        {
+          id: 'nexus',
+          title: 'IoT und Daten — Forward Deployment Engineer',
+          org: 'Nexus — eigene Plattform',
+          period: '2026 — heute',
+          line: 'Eine IoT-Plattform für Energiemonitoring, die ich entworfen, gebaut und im Betrieb habe – im Produktivbetrieb: Janitza-Netzanalysatoren und Teltonika-Router im Gebäude, WireGuard auf einen gehärteten Hetzner-Server, TimescaleDB, Grafana und ein eigenes Kunden-Dashboard.',
+          to: '/nexus',
+          featured: true,
+        },
+        {
+          id: 'hochschule',
+          title: 'HiWi-Forschungsassistent',
+          org: 'Hochschule Offenburg',
+          period: 'Nov 2025 — Feb 2026',
+          line: 'Durchgängige IoT-Pipeline von RLT-Anlagensensoren bis zum Monitoring-Dashboard – Node-RED, NATS JetStream, InfluxDB und Grafana, containerisiert mit Docker und über GitLab CI/CD ausgerollt.',
+          to: '/data-engineering#hochschule',
+        },
+        {
+          id: 'navistar',
+          title: 'Senior Data Engineer',
+          org: 'LTIMindtree · Navistar International (USA)',
+          period: 'Apr 2022 — Aug 2025',
+          line: 'Über 20 stündliche ETL-Pipelines auf Azure Synapse und Databricks, die rohe Fahrzeugtelematik in ein analysebereites Lakehouse mit SQL-Serverless-Schicht überführen.',
+          to: '/data-engineering#navistar',
+        },
+        {
+          id: 'lt',
+          title: 'Data Engineer',
+          org: 'LTIMindtree · L&T ECC (Indien)',
+          period: 'Aug 2020 — Apr 2022',
+          line: 'Migration von über 100 Spark-SQL-Jobs von Azure HDInsight zu Databricks bei 50 % geringeren Kosten – mit 100.000+ täglichen Telematik-Datensätzen von rund 150 IoT-Geräten.',
+          to: '/data-engineering#lt',
+        },
+        {
+          id: 'tampnet',
+          title: 'IoT-Ingenieur',
+          org: 'LTI · Tampnet (Norwegen)',
+          period: 'Jun 2018 — Aug 2020',
+          line: 'Beschaffung und Labortests ATEX/IECEx-zertifizierter NB-IoT- und CAT-M-Sensoren für explosionsgefährdete Bereiche – samt der Python-APIs, die deren Messwerte in die Cloud brachten.',
+          to: '/data-engineering#tampnet',
+        },
+      ],
+    },
+
+    projectDiagrams: {
+      title: 'Architektur',
+      1: {
+        caption: 'RLT-Sensoren → MQTT → Node-RED → NATS JetStream → InfluxDB, mit Grafana für Live-Dashboards und einem Python-Archiver, der partitioniertes Parquet nach Azure Blob schreibt.',
+        field: 'Feldebene',
+        controller: 'Steuerung',
+        fieldbus: 'Feldbus',
+        mbus: 'M-Bus-Box',
+        docker: 'Docker-Container',
+        flow: 'Logikfluss',
+        hot: 'Hot Storage',
+        dbAdmin: 'UI & DB-Admin',
+        alerts: 'Dashboards & Alarme',
+        partitioned: 'jjjj/mm/tt/hh',
+        note: 'Gesamte Pipeline containerisiert unter Linux und über GitLab CI/CD ausgerollt.',
+      },
+      2: {
+        caption: 'Ein geschichtetes Azure-Lakehouse: Medallion-Speicher auf ADLS Gen2 und Delta Lake, Spark- und Databricks-Compute, Governance über Unity Catalog und Power BI auf einer SQL-Serverless-Schicht.',
+        process: 'Datenverarbeitung',
+        storage: 'Datenspeicher',
+        governance: 'Governance',
+        platform: 'Plattform',
+        jobCluster: 'Job-Cluster',
+        warehouse: 'Analyseschicht',
+      },
+      3: {
+        caption: 'Überführung des gesamten Batch-Stacks von HDInsight Hadoop/YARN auf Databricks-Job-Cluster und Delta auf ADLS Gen2 – gleiche Reporting-Schicht, halbe Kosten.',
+        after: 'Nachher — Databricks',
+        before: 'Vorher — On-Premise / HDInsight',
+        migration: 'Migration',
+        migrationNote: '100+ Spark-SQL-Jobs · 50 % Kostenreduktion',
+        jobCluster: 'Job-Compute-Cluster',
+      },
+      4: {
+        caption: 'Evaluierung zertifizierter Sensoren für explosionsgefährdete Bereiche, danach eine Python-API, die geprüfte Messwerte aus dem Labor in den Cloud-Speicher bringt.',
+        sensors: 'IoT-Sensoren',
+        certification: 'EX-SCHUTZ-ZERTIFIZIERUNG',
+        onPrem: 'On-Premise-Aufbau',
+        labTesting: 'Labortests',
+        vendor: 'Lieferantenbewertung',
+        archiver: 'Archiver',
+        coldStore: 'Cold Storage',
+        realtime: 'Echtzeit-Sensordatenverarbeitung',
+        note: 'Sensorauswahl, Lieferantenkommunikation und Laborprotokolle parallel zum Datenpfad.',
+      },
+    },
+
+    extraSkillGroups: [
+      {
+        category: 'IoT-Hardware & Feldgeräte',
+        skills:
+          'Janitza UMG801 Netzanalysatoren (Modbus TCP, Wandlerkonfiguration, GridVis, RCM-Module), Teltonika RUTC50 / RUT901 Industrierouter (RutOS, Dual-SIM-Failover, Firewall-Zonen, Fernverwaltung), Siemens-Steuerungen, BACnet, M-Bus, ATEX-/IECEx-zertifizierte Sensoren',
+      },
+      {
+        category: 'Netzwerk & Sicherheit',
+        skills:
+          'WireGuard VPN (Hub-and-Spoke, Schlüsselrotation, CGNAT-Traversal, MTU-Tuning), SSH-Härtung (ausschließlich Schlüsselauthentifizierung, deaktivierter Root-Login, fail2ban), Firewall-Zonierung, Hetzner Cloud-Firewall, TLS und Reverse Proxy, Netzsegmentierung',
+      },
+      {
+        category: 'Cloud-Infrastruktur & Linux',
+        skills:
+          'Hetzner Cloud (Server, Cloud-Firewalls, private Netze, Snapshots und Backups), Linux-Serveradministration, Docker und Docker Compose, TimescaleDB (Hypertables, Continuous Aggregates, Komprimierung, Retention), unbeaufsichtigte Sicherheitsupdates',
+      },
+    ],
 
     platform: {
       eyebrow: 'Kernprojekt',
